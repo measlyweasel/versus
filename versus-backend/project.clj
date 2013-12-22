@@ -11,7 +11,8 @@
 
   :plugins [[lein-ring "0.8.8"]]
 
-  :ring {:handler versus-backend.handler/app}
+  :ring {:init    versus-backend.mongo/init-db-prod
+         :handler versus-backend.handler/app}
 
-  :profiles {:dev {:dependencies  [[javax.servlet/servlet-api "2.5"]
+  :profiles {:dev {:dependencies [[javax.servlet/servlet-api "2.5"]
                                   [ring-mock "0.1.5"]]}})

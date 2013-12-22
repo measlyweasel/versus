@@ -110,10 +110,44 @@
     (addSeveralContenders testTournamentName ["first" "second" "third"])
 
     ;when
-    (vote testTournamentName "first" "second")
+    (vote testTournamentName :winner "first" :loser "second")
 
     ;then
     (is (= (get (getContenders testTournamentName) "first") 1))
     (is (= (get (getContenders testTournamentName) "second") -1))))
+
+(deftest lotsOfVotes
+  (testing "lots of votes can happen"
+    ;given
+    (def contenders ["rice krispies" "lucky charms" "cap'n crunch" "frosted flakes"])
+    (addSeveralContenders testTournamentName contenders)
+
+    ;when
+    (vote testTournamentName :winner "rice krispies" :loser "lucky charms")
+    (vote testTournamentName :winner "rice krispies" :loser "frosted flakes")
+    (vote testTournamentName :winner "frosted flakes" :loser "cap'n crunch")
+    (vote testTournamentName :winner "frosted flakes" :loser "lucky charms")
+
+    ;then
+    (is (= (get (getContenders testTournamentName) "frosted flakes") 1))
+    (is (= (get (getContenders testTournamentName) "rice krispies") 2))
+    (is (= (get (getContenders testTournamentName) "cap'n crunch") -1))
+    (is (= (get (getContenders testTournamentName) "lucky charms") -2))
+
+    ))
+
+(deftest findTournaments
+  (testing "all tournament names are returned"
+    ;given
+    (createTournament "cereal")
+    (createTournament "people")
+    (createTournament "animals")
+
+    ;when
+    (def tournaments (getTournaments))
+
+    ;then
+    (is (= tournaments #{testTournamentName "cereal" "people" "animals"}))
+    ))
 
 (run-tests)
