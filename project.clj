@@ -1,4 +1,4 @@
-(defproject versus-backend "0.1.0-SNAPSHOT"
+(defproject versus "0.1.0-SNAPSHOT"
   :description "FIXME: write description"
 
   :url "http://example.com/FIXME"
@@ -11,8 +11,8 @@
 
   :plugins [[lein-ring "0.8.8"]]
 
-  :ring {:init    versus-backend.mongo/init-db-prod
-         :handler versus-backend.handler/app}
+  :ring {:init    mongo/init-db-prod
+         :handler handler/app}
 
   :profiles {:dev {:dependencies [[javax.servlet/servlet-api "2.5"]
                                   [ring-mock "0.1.5"]]}})

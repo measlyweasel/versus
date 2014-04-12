@@ -1,4 +1,4 @@
-(ns versus-backend.mongo
+(ns mongo
   (:require [monger.collection :as mc]
             [monger.core :as mg]
             [clojure.math.combinatorics :as combo]

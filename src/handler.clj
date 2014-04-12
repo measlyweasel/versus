@@ -1,9 +1,10 @@
-(ns versus-backend.handler
+(ns handler
   (:use compojure.core)
   (:require [compojure.handler :as handler]
             [compojure.route :as route]
-            [versus-backend.mongo :as mongo]
-            [clojure.data.json :as json]))
+            [mongo :as mongo]
+            [clojure.data.json :as json]
+            [ring.util.response :as resp]))
 
 (defroutes api-routes
            (GET "/" [] "Hello World")
@@ -15,7 +16,8 @@
 
 (defroutes main-routes
            (context "/api" [] api-routes)
-          ; (route/resources "/")
+           (GET "/" [] (resp/resource-response "index.html" {:root "public"}))
+           (route/resources "/")
            (route/not-found "Not Found")
            )
 
