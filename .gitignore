@@ -1,2 +1,8 @@
 *.iml
 .idea/
+target/*
+*.jar
+*.class
+.lein-*
+.nrepl-port
+*.iml
