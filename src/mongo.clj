@@ -13,8 +13,8 @@
 (defn init-db-prod []
   (init-db "prod"))
 
-(defn createTournament [shortName & [description]]
-  (mc/insert tournamentCollectionName {:_id shortName :description description}))
+(defn createTournament [tournament]
+  (mc/insert tournamentCollectionName {:_id (get tournament :name) :description (get tournament :description)}))
 
 (defn getContenders [tournament]
   (get (mc/find-by-id tournamentCollectionName tournament [:contenders]) "contenders"))
