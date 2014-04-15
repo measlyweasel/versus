@@ -1,11 +1,38 @@
-<div class="clearfix"></div>
+<div class="container">
 
-<img src="images/clojureDeadHead.png" height="200" width="200">
+    <div class="jumbotron">
+        <div class="row">
+            <div class="col-lg-3">
+                <img src="images/clojureDeadHead.png" height="200" width="200">
+            </div>
 
-<div class="jumbotron">
-    <h1>Round One, FIGHT!</h1>
-</div>
+            <div class="col-lg-9" style="height:200px">
+                <h1>Round One, FIGHT!</h1>
 
-<div class="footer">
-    <p>Copyright stuff</p>
+                <h2>Welcome to VERSUS</h2>
+            </div>
+        </div>
+
+    </div>
+
+
+    <div class="row">
+        <div class="col-lg-4 col-lg-offset-1 bg-primary">
+            <ng-include src="'views/partials/tournamentPicker.html'"
+                        ng-controller="TournamentController"></ng-include>
+        </div>
+        <div class="col-lg-2  text-center">
+            <h1>OR</h1>
+        </div>
+
+        <div class="col-lg-4 bg-success">
+            <ng-include src="'views/partials/tournamentCreator.html'"
+                        ng-controller="TournamentController"></ng-include>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>Copyright 2014 Jason Cahoon</p>
+    </div>
+
 </div>
