@@ -17,7 +17,7 @@
 
 (defn re-create-tournament-fixture [f]
   (mc/drop tournamentCollectionName)
-  (createTournament {:name testTournamentName})
+  (createTournament {:_id testTournamentName})
   (f))
 
 (use-fixtures :once db-setup-fixture)
@@ -44,7 +44,7 @@
     (is (not (mc/exists? tournamentCollectionName)))
 
     ;when
-    (createTournament {:name testTournamentName})
+    (createTournament {:_id testTournamentName})
 
     ;then
     (is (= (get (mc/find-one-as-map tournamentCollectionName {:_id testTournamentName}) :_id) testTournamentName))))
@@ -57,7 +57,7 @@
     (def testTournamentDescription "awesome")
 
     ;when
-    (createTournament {:name testTournamentName :description testTournamentDescription})
+    (createTournament {:_id testTournamentName :description testTournamentDescription})
 
     ;then
     (is (= (get (mc/find-one-as-map tournamentCollectionName {:_id testTournamentName}) :description) testTournamentDescription))))
@@ -139,9 +139,9 @@
 (deftest findTournaments
   (testing "all tournament names are returned"
     ;given
-    (createTournament {:name "cereal"})
-    (createTournament {:name "people"})
-    (createTournament {:name "animals"})
+    (createTournament {:_id "cereal"})
+    (createTournament {:_id "people"})
+    (createTournament {:_id "animals"})
 
     ;when
     (def tournaments (getTournaments))

@@ -14,7 +14,7 @@
   (init-db "prod"))
 
 (defn createTournament [tournament]
-  (mc/insert tournamentCollectionName {:_id (get tournament :name) :description (get tournament :description)}))
+  (mc/insert tournamentCollectionName {:_id (get tournament :_id) :description (get tournament :description)}))
 
 (defn getContenders [tournament]
   (get (mc/find-by-id tournamentCollectionName tournament [:contenders]) "contenders"))
