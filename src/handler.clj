@@ -1,6 +1,6 @@
 (ns handler
   (:use compojure.core)
-  (:use ring.middleware.json-params)
+  (:use [ring.middleware.json :only [wrap-json-params wrap-json-response]])
   (:require [compojure.handler :as handler]
             [compojure.route :as route]
             [mongo :as mongo]
@@ -12,7 +12,7 @@
 
            (GET "/tournaments" [] (json/write-str (mongo/getTournaments)))
            (GET "tournaments/:tournID" [tournId] "SPECIFIC TOURNAMENT")
-           (POST "/tournaments" [tournament] (mongo/createTournament tournament))
+           (POST "/tournaments" {tournament :params} (if-not (.getError (mongo/createTournament tournament)) resp/created))
            (DELETE "/tournaments/:tournId" [tournId] "I SHOULD DELETE")
            (PUT "/tournaments/:tournId" [tournId] "I SHOULD UPDATE")
            (POST "/tournaments/:tournId/vote" [tournId vote] "VOTE")
@@ -34,5 +34,5 @@
            (route/not-found "Not Found")
            )
 
-(def app (-> (handler/site main-routes) wrap-json-params))
+(def app (-> (handler/site main-routes) wrap-json-params wrap-json-response))
 

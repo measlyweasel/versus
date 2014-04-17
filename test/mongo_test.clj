@@ -1,4 +1,4 @@
-(ns test.mongo_test
+(ns mongo-test
   (:require [clojure.test :refer :all]
             [mongo :refer :all]
             [monger.collection :as mc]

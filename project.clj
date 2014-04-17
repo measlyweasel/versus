@@ -5,8 +5,8 @@
 
   :dependencies [[org.clojure/clojure "1.5.1"]
                  [compojure "1.1.6"]
-                 [com.novemberain/monger "1.5.0"]
-                 [ring-json-params "0.1.3"]
+                 [com.novemberain/monger "1.7.0"]
+                 [ring/ring-json "0.3.1"]
                  [org.clojure/math.combinatorics "0.0.7"]
                  [org.clojure/data.json "0.2.3"]]
 
