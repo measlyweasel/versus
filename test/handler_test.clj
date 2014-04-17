@@ -1,4 +1,4 @@
-(ns versus-backend.test.handlerTest
+(ns versus-backend.test.handler_test
   (:use clojure.test
         ring.mock.request  
         versus-backend.handler))
