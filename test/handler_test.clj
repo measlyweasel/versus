@@ -30,6 +30,11 @@
       (is (= (response :status) 201)) ; 201 is HTTP success Created
       ))
 
+  (testing "list tournaments"
+    (let [response (app (request :get "/api/tournaments"))]
+      (is (= (response :status) 200))
+      ))
+
   (testing "not-found route"
     (let [response (app (request :get "/api/invalid"))]
       (is (= (:status response) 404))))
@@ -45,7 +50,7 @@
       (is (= (:status response) 200))
       (is (instance? File (:body response)))
       (is (= (.getName (:body response)) "index.html"))))
-  
+
   (testing "main not-found route"
     (let [response (app (request :get "/invalid"))]
       (is (= (:status response) 404))))

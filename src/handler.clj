@@ -10,9 +10,14 @@
 (defroutes api-routes
            (GET "/" [] "Hello World")
 
-           (GET "/tournaments" [] (json/write-str (mongo/getTournaments)))
+           (GET "/tournaments" [] (resp/response (mongo/getTournaments)))
            (GET "tournaments/:tournID" [tournId] "SPECIFIC TOURNAMENT")
-           (POST "/tournaments" {tournament :params} (if-not (.getError (mongo/createTournament tournament)) resp/created))
+           (POST "/tournaments" {tournament :params}
+                 (let [mongoResponse (mongo/createTournament tournament)]
+                   (if-not (.getError mongoResponse)
+                     (resp/created (str "/tournaments/" (tournament :_id)))
+                     (resp/status resp/response 500)))
+                 )
            (DELETE "/tournaments/:tournId" [tournId] "I SHOULD DELETE")
            (PUT "/tournaments/:tournId" [tournId] "I SHOULD UPDATE")
            (POST "/tournaments/:tournId/vote" [tournId vote] "VOTE")

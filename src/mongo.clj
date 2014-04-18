@@ -11,7 +11,8 @@
   (mg/set-db! (mg/get-db name)))
 
 (defn init-db-prod []
-  (init-db "prod"))
+  (println "Connecting to Production Database")
+  (init-db "versus"))
 
 (defn createTournament [tournament]
   (mc/insert tournamentCollectionName {:_id (get tournament :_id) :description (get tournament :description)}))
@@ -32,5 +33,4 @@
 (defn vote [tournament & {:keys [winner loser]}]
   (mc/update-by-id tournamentCollectionName tournament {"$inc" {(str "contenders." winner) 1 (str "contenders." loser) -1}}))
 
-(defn getTournaments []
-  (into #{} (map #(get % "_id") (mc/find tournamentCollectionName {} [:_id]))))
+(defn getTournaments [] (mc/find-maps tournamentCollectionName))

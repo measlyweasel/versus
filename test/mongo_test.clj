@@ -147,7 +147,10 @@
     (def tournaments (getTournaments))
 
     ;then
-    (is (= tournaments #{testTournamentName "cereal" "people" "animals"}))
+    (def expected #{testTournamentName "cereal" "people" "animals"})
+    (def actual (into #{} (map (fn [x] (x :_id)) tournaments)))
+
+    (is (= expected actual))
     ))
 
 (run-tests)

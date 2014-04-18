@@ -10,7 +10,7 @@
                  [org.clojure/math.combinatorics "0.0.7"]
                  [org.clojure/data.json "0.2.3"]]
 
-  :plugins [[lein-ring "0.8.8"]]
+  :plugins [[lein-ring "0.8.10"]]
 
   :ring {:init    mongo/init-db-prod
          :handler handler/app}
