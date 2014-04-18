@@ -1,8 +1,8 @@
 <div class="tournamentPicker text-center">
     <h2>Pick a Tournament</h2>
 
-    <div class="tournamentList" ng-repeat="tournament in tournaments">
-        <a ng-href="#/tournament/{{tournament._id}}"/>
+    <div ng-repeat="tournament in tournaments">
+        <a class="tournament" ng-href="#/tournament/{{tournament._id}}">{{tournament._id}}</a>
     </div>
 
 </div>

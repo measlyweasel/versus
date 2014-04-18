@@ -1,11 +1,9 @@
 "use strict";
 angular.module("versus")
-    .controller("TournamentController", function ($scope, TournamentService) {
+    .controller("TournamentController", function ($scope, Tournament) {
         var _private = {};
 
-        TournamentService.list().then(function (tournamentList) {
-            $scope.tournaments = tournamentList
-        });
-
+        $scope.tournaments = Tournament.query();
+        $scope.newTournament = new Tournament();
 
     });

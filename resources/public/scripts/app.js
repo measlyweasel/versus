@@ -2,6 +2,7 @@
 
 angular.module('versus', [
     'ngRoute',
+    'ngResource',
     'versus.services'
 ]).config(function ($routeProvider) {
     $routeProvider
