@@ -32,7 +32,7 @@
     (is (not (mc/exists? tournamentCollectionName)))
 
     ;when
-    (createTournament testTournamentName)
+    (createTournament {:_id testTournamentName})
 
     ;then
     (is (mc/exists? tournamentCollectionName))))
