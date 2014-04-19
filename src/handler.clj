@@ -10,8 +10,10 @@
 (defroutes api-routes
            (GET "/" [] "Hello World")
 
-           (GET "/tournaments" [] (resp/response (mongo/getTournaments)))
-           (GET "tournaments/:tournID" [tournId] "SPECIFIC TOURNAMENT")
+           (GET "/tournaments" [] (resp/response (mongo/getAllTournaments)))
+
+           (GET "/tournaments/:tournId" [tournId] (resp/response (mongo/getTournament tournId)))
+
            (POST "/tournaments" {tournament :params}
                  (let [mongoResponse (mongo/createTournament tournament)]
                    (if-not (.getError mongoResponse)

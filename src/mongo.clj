@@ -20,6 +20,9 @@
 (defn getContenders [tournament]
   (get (mc/find-by-id tournamentCollectionName tournament [:contenders]) "contenders"))
 
+(defn getTournament [_id]
+  (mc/find-map-by-id tournamentCollectionName _id))
+
 (defn generatePairs [tournament]
   (def comboSeq (combo/combinations (keys (getContenders tournament)) 2))
   (into #{} (for [pair comboSeq] (into #{} pair))))
@@ -33,4 +36,4 @@
 (defn vote [tournament & {:keys [winner loser]}]
   (mc/update-by-id tournamentCollectionName tournament {"$inc" {(str "contenders." winner) 1 (str "contenders." loser) -1}}))
 
-(defn getTournaments [] (mc/find-maps tournamentCollectionName))
+(defn getAllTournaments [] (mc/find-maps tournamentCollectionName))

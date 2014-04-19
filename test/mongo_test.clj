@@ -144,7 +144,7 @@
     (createTournament {:_id "animals"})
 
     ;when
-    (def tournaments (getTournaments))
+    (def tournaments (getAllTournaments))
 
     ;then
     (def expected #{testTournamentName "cereal" "people" "animals"})
@@ -152,5 +152,18 @@
 
     (is (= expected actual))
     ))
+
+(deftest getSingleTournament
+  (testing "retrieval of just one tournament with a few contenders"
+    ;given
+    (createTournament {:_id "tournamentX"})
+    (addContender "tournamentX" "contender1")
+    (addContender "tournamentX" "contender2")
+
+    ;when
+    (def actual (getTournament "tournamentX"))
+
+    ;then
+    (is (= {:_id "tournamentX" :contenders {:contender1 0 :contender2 0}} actual))))
 
 (run-tests)
