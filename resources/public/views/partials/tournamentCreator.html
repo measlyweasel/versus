@@ -1,8 +1,13 @@
 <div class="tournamentCreator text-center">
     <h2>Create a Tournament</h2>
 
+    <label>Name
         <input class="" type="text" ng-model="newTournament._id"/>
+    </label>
+    <label>Other Thing
         <input class="" type="text" ng-model="newTournament.description"/>
-        <button class="btn-primary" ng-click="newTournament.$save()">Create</button>
+    </label>
+
+    <button class="btn btn-primary center-block" ng-click="newTournament.$save()">Create</button>
 
 </div>
