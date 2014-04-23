@@ -18,9 +18,14 @@
                  (let [mongoResponse (mongo/createTournament tournament)]
                    (if-not (.getError mongoResponse)
                      (resp/created (str "/tournaments/" (tournament :_id)))
-                     (resp/status resp/response 500)))
+                     (resp/status (resp/response "") 500)))
                  )
-           (DELETE "/tournaments/:tournId" [tournId] "I SHOULD DELETE")
+           (DELETE "/tournaments/:tournId" [tournId]
+                   (let [mongoResponse (mongo/deleteTournament tournId)]
+                     (if-not (.getError mongoResponse)
+                       (resp/status (resp/response "") 204)
+                       (resp/status (resp/response "") 500))
+                     ))
            (PUT "/tournaments/:tournId" [tournId] "I SHOULD UPDATE")
            (POST "/tournaments/:tournId/vote" [tournId vote] "VOTE")
 

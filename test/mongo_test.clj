@@ -166,4 +166,17 @@
     ;then
     (is (= {:_id "tournamentX" :contenders {:contender1 0 :contender2 0}} actual))))
 
+(deftest removeTournament
+  (testing "tournaments can be deleted"
+    ;given
+    (is (mc/any? tournamentCollectionName {:_id testTournamentName}))
+
+    ;when
+    (deleteTournament testTournamentName)
+
+    ;then
+    (is (not (mc/any? tournamentCollectionName {:_id testTournamentName})))
+    )
+  )
+
 (run-tests)

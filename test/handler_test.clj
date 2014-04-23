@@ -41,6 +41,18 @@
       (is (= (response :body) (json/write-str {:_id "thingie"})))
       )))
 
+(deftest delete-tournament
+  (testing "delete a tournament via api"
+    ;given
+    (createTournament {:_id "whatever"})
+    (is (monger.collection/any? mongo/tournamentCollectionName {:_id "whatever"}))
+
+    (let [response (app (request :delete "/api/tournaments/whatever"))]
+      (is (= (response :status) 204)))
+
+    (is (not (monger.collection/any? mongo/tournamentCollectionName {:_id "whatever"})))
+    ))
+
 (deftest tournament-list
   (testing "list tournaments"
     (let [response (app (request :get "/api/tournaments"))]

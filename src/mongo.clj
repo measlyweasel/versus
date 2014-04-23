@@ -37,3 +37,5 @@
   (mc/update-by-id tournamentCollectionName tournament {"$inc" {(str "contenders." winner) 1 (str "contenders." loser) -1}}))
 
 (defn getAllTournaments [] (mc/find-maps tournamentCollectionName))
+
+(defn deleteTournament [_id] (mc/remove-by-id tournamentCollectionName _id))
