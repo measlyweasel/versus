@@ -179,4 +179,16 @@
     )
   )
 
+(deftest modifyATournament
+  (testing "tournament properties can be updated"
+    ;given
+    (def myTournamentUpdate {:_id testTournamentName :description "a better description"})
+
+    ;when
+    (updateTournament myTournamentUpdate)
+
+    ;then
+    (is (= (mc/find-map-by-id mongo/tournamentCollectionName testTournamentName) myTournamentUpdate)))
+  )
+
 (run-tests)

@@ -17,6 +17,9 @@
 (defn createTournament [tournament]
   (mc/insert tournamentCollectionName tournament))
 
+(defn updateTournament [tournament]
+  (mc/update-by-id tournamentCollectionName (tournament :_id) {"$set" (dissoc tournament :_id)}))
+
 (defn getContenders [tournament]
   (get (mc/find-by-id tournamentCollectionName tournament [:contenders]) "contenders"))
 

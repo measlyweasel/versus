@@ -6,4 +6,7 @@ angular.module("versus")
         $scope.tournaments = Tournament.query();
         $scope.newTournament = new Tournament();
 
+       // example of updating
+       // Tournament.update({_id: "test"}, {description: 'something else'})
+
     });
