@@ -26,7 +26,10 @@
                        (resp/status (resp/response "") 204)
                        (resp/status (resp/response "") 500))
                      ))
-           (PUT "/tournaments/:tournId" [tournId] "I SHOULD UPDATE")
+           (PUT "/tournaments/:_id" {tournament :params} (let [mongoResponse (mongo/updateTournament tournament)]
+                                                           (if-not (.getError mongoResponse)
+                                                             (resp/status (resp/response "") 204)
+                                                             (resp/status (resp/response "") 500))))
            (POST "/tournaments/:tournId/vote" [tournId vote] "VOTE")
 
            (GET "/tournaments/:tournId/contenders" [tournId] "LIST OF CONTENDERS")

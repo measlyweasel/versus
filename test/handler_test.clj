@@ -53,6 +53,32 @@
     (is (not (monger.collection/any? mongo/tournamentCollectionName {:_id "whatever"})))
     ))
 
+(deftest update-tournament
+  (testing "update a tournament via the api"
+    ;given
+    (def updatedTournament {:_id "updater" :description "something"})
+    (createTournament {:_id "updater" :description "none"})
+
+    ;when
+    (let [response (app (-> (request :put "/api/tournaments/updater")
+                            (body (json/write-str updatedTournament))
+                            (content-type "application/json")))]
+      (is (= (response :status) 204)))
+
+    (is (= (monger.collection/find-map-by-id mongo/tournamentCollectionName "updater")
+           updatedTournament)))
+
+  (testing "updates with bad ids in body respect the url id"
+    (let [response (app (-> (request :put "/api/tournaments/updater")
+                            (body (json/write-str {:_id "BAD" :description "something else"}))
+                            (content-type "application/json")))]
+      (is (= (response :status) 204)))
+    (is (= (monger.collection/find-map-by-id mongo/tournamentCollectionName "updater")
+           {:_id "updater" :description "something else"}))
+    )
+  )
+
+
 (deftest tournament-list
   (testing "list tournaments"
     (let [response (app (request :get "/api/tournaments"))]
