@@ -30,11 +30,17 @@
                                                            (if-not (.getError mongoResponse)
                                                              (resp/status (resp/response "") 204)
                                                              (resp/status (resp/response "") 500))))
-           (POST "/tournaments/:tournId/vote" [tournId vote] "VOTE")
+
+
+           (POST "/tournaments/:tournId/vote" {vote :params} "VOTE")
+
+           (POST "/tournaments/:tournId/contenders" {contender :params} (let [mongoResponse (mongo/addContender (contender :tournId) (contender :name))]
+                                                                          (if-not (.getError mongoResponse)
+                                                                            (resp/created (str "/tournaments/" (contender :tournId) "/contenders/" (contender :name)))
+                                                                            (resp/status (resp/response "") 500))))
 
            (GET "/tournaments/:tournId/contenders" [tournId] "LIST OF CONTENDERS")
            (GET "/tournaments/:tournId/contenders/:contId" [tournId contId] "CONTENDER INFO")
-           (POST "/tournaments/:tournId/contenders" [tournId] "ADD A CONTENDER")
            (DELETE "/tournaments/:tournId/contenders/:contId" [tournId contId] "DELETE A CONTENDER")
            (PUT "/tournaments/:tournId/contenders/:contId" [tournId contId] "I SHOULD UPDATE")
 

@@ -1,12 +1,10 @@
-"use strict";
+'use strict';
+
 angular.module("versus")
-    .controller("TournamentController", function ($scope, Tournament) {
-        var _private = {};
+    .controller("TournamentController", function ($scope, $routeParams, Tournament, Contender) {
 
-        $scope.tournaments = Tournament.query();
-        $scope.newTournament = new Tournament();
-
-       // example of updating
-       // Tournament.update({_id: "test"}, {description: 'something else'})
+        $scope.tournament = Tournament.get({_id: $routeParams.tournId});
+        $scope.newContender = new Contender({tournId: $routeParams.tournId});
 
     });
+

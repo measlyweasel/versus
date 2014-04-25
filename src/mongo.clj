@@ -20,8 +20,8 @@
 (defn updateTournament [tournament]
   (mc/update-by-id tournamentCollectionName (tournament :_id) {"$set" (dissoc tournament :_id)}))
 
-(defn getContenders [tournament]
-  (get (mc/find-by-id tournamentCollectionName tournament [:contenders]) "contenders"))
+(defn getContenders [tournId]
+  (get (mc/find-by-id tournamentCollectionName tournId [:contenders]) "contenders"))
 
 (defn getTournament [_id]
   (mc/find-map-by-id tournamentCollectionName _id))
