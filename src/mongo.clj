@@ -15,6 +15,8 @@
   (init-db "versus"))
 
 (defn createTournament [tournament]
+  (if-not (contains? tournament :contenders)
+    (assoc tournament :contenders []))
   (mc/insert tournamentCollectionName tournament))
 
 (defn updateTournament [tournament]

@@ -6,5 +6,15 @@ angular.module("versus")
         $scope.tournament = Tournament.get({_id: $routeParams.tournId});
         $scope.newContender = new Contender({tournId: $routeParams.tournId});
 
+        $scope.saveNewTournament = function(){
+
+        }
+
+        $scope.saveNewContender = function(){
+            $scope.newContender.$save();
+            $scope.tournament.contenders[$scope.newContender.name]=0;
+            $scope.newContender = new Contender({tournId: $routeParams.tournId})
+        }
+
     });
 

@@ -62,6 +62,14 @@
     ;then
     (is (= (get (mc/find-one-as-map tournamentCollectionName {:_id testTournamentName}) :description) testTournamentDescription))))
 
+(deftest contenderAutoVivify
+  (testing "the contender list is automatically created for new tournaments"
+    (createTournament {:_id "noContenders"})
+
+    (def foundTourn (mc/find-map-by-id tournamentCollectionName "noContenders"))
+    (is (= (foundTourn :contenders) []))
+    ))
+
 (deftest addContenderTest
   (testing "adding a contender to a tournament"
     ;given

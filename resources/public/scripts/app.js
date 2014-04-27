@@ -6,7 +6,7 @@ angular.module('versus', [
     'versus.services'
 ]).config(function ($routeProvider) {
     $routeProvider
-        .when('/', {templateUrl: 'views/main.html'})
+        .when('/', {templateUrl: 'views/main.html', controller: "MainController"})
         .when('/tournament/:tournId', {templateUrl: 'views/tournament.html', controller: 'TournamentController'})
 });
 

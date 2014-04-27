@@ -1,8 +1,8 @@
 <div class="contenderList text-center">
     <h2>Contenders</h2>
     <ul>
-        <li ng-repeat="contender in tournament.contenders">
-            {{contender._id}}
+        <li ng-repeat="(contender,score) in tournament.contenders">
+            {{contender}} -- {{score}}
         </li>
     </ul>
 </div>
