@@ -10,11 +10,19 @@
         <div class="col-lg-4 col-lg-offset-1 bg-primary">
             <ng-include src="'views/partials/contenderList.html'"></ng-include>
         </div>
-        <div class="col-lg-2  text-center">
+
+        <div class="col-lg-4 col-lg-offset-2 bg-success">
+            <ng-include src="'views/partials/contenderCreator.html'"></ng-include>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-4 col-lg-offset-1 bg-primary contender">
+            {{firstContender.name}}
         </div>
 
-        <div class="col-lg-4 bg-success">
-            <ng-include src="'views/partials/contenderCreator.html'"></ng-include>
+        <div class="col-lg-4 col-lg-offset-2 bg-success contender">
+            {{secondContender.name}}
         </div>
     </div>
 
