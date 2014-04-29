@@ -3,12 +3,13 @@
 angular.module("versus")
     .controller("TournamentController", function ($scope, $routeParams, Tournament, Contender) {
 
-        $scope.tournament = Tournament.get({_id: $routeParams.tournId});
+        Tournament.get({_id: $routeParams.tournId}).$promise.then(function(tournament){
+            $scope.tournament = tournament;
+            $scope.firstContender = suggestContender();
+            $scope.secondContender = suggestContender($scope.firstContender);
+        });
+
         $scope.newContender = new Contender({tournId: $routeParams.tournId});
-
-        $scope.saveNewTournament = function () {
-
-        };
 
         $scope.saveNewContender = function () {
             $scope.newContender.$save();
@@ -19,12 +20,8 @@ angular.module("versus")
             $scope.newContender = new Contender({tournId: $routeParams.tournId})
         };
 
-        $scope.firstContender = suggestContender();
-        $scope.secondContender = suggestContender($scope.firstContender);
-
-
         function suggestContender(otherContender) {
-            var contenders = $scope.tournament.contenders;
+            var contenders = Object.keys($scope.tournament.contenders);
             if (typeof otherContender === 'undefined') {
                 var randomIndex = Math.floor(Math.random() * contenders.length);
                 return contenders[randomIndex];
@@ -54,7 +51,7 @@ angular.module("versus")
 
             var votesSquared = Math.pow(contender.value - otherContender.value, 2);
 
-            return sqrt(votesSquared);
+            return Math.sqrt(votesSquared);
         }
 
     });
