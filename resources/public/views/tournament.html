@@ -18,13 +18,13 @@
 
 
     <div class="row">
-        <div class="col-lg-4 col-lg-offset-1 bg-primary contender">
+        <div class="col-lg-4 col-lg-offset-1 bg-primary contender" ng-click="vote(firstContender)">
             <h1>{{firstContender}}</h1>
         </div>
         <div class="col-lg-2 text-center text-danger">
            <h1>VERSUS</h1>
         </div>
-        <div class="col-lg-4 bg-success contender">
+        <div class="col-lg-4 bg-success contender" ng-click="vote(secondContender)">
             <h1>{{secondContender}}</h1>
         </div>
     </div>

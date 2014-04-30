@@ -38,7 +38,7 @@
 (defn addSeveralContenders [tournament contenders]
   (doseq [contender contenders] (addContender tournament contender)))
 
-(defn vote [tournament & {:keys [winner loser]}]
+(defn vote [tournament {:keys [winner loser]}]
   (mc/update-by-id tournamentCollectionName tournament {"$inc" {(str "contenders." winner) 1 (str "contenders." loser) -1}}))
 
 (defn getAllTournaments [] (mc/find-maps tournamentCollectionName))

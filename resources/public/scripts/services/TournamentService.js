@@ -6,7 +6,10 @@ angular.module('versus.services')
             '/api/tournaments/:_id',
             {},
             {
-                vote: {method: 'POST'},
+                vote: {
+                    method: 'POST',
+                    url: '/api/tournaments/:_id/vote'
+                },
                 update: {method: 'PUT'}
             })
     });
