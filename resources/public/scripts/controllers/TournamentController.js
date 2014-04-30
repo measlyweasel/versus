@@ -25,7 +25,7 @@ angular.module("versus")
 
         $scope.vote = function(winner){
             var loser = winner == $scope.firstContender ? $scope.secondContender : $scope.firstContender;
-            $scope.tournament.$vote({},{winner: winner, loser: loser});
+            Tournament.vote({_id:$routeParams.tournId}, {winner: winner, loser: loser});
 
             contenderLastRoundSeenCache.put(winner,$scope.currentRoundNumber);
             contenderLastRoundSeenCache.put(loser,$scope.currentRoundNumber);
