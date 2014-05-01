@@ -3,7 +3,7 @@
 angular.module("versus")
     .controller("TournamentController", function ($scope, $routeParams, $cacheFactory, Tournament, Contender) {
 
-        Tournament.get({_id: $routeParams.tournId}).$promise.then(function(tournament){
+        Tournament.get({_id: $routeParams.tournId}).$promise.then(function (tournament) {
             $scope.tournament = tournament;
             refreshContenders();
         });
@@ -23,18 +23,20 @@ angular.module("versus")
             $scope.newContender = new Contender({tournId: $routeParams.tournId})
         };
 
-        $scope.vote = function(winner){
+        $scope.vote = function (winner) {
             var loser = winner == $scope.firstContender ? $scope.secondContender : $scope.firstContender;
-            Tournament.vote({_id:$routeParams.tournId}, {winner: winner, loser: loser});
+            Tournament.vote({_id: $routeParams.tournId}, {winner: winner, loser: loser});
+            $scope.tournament.contenders[winner]++;
+            $scope.tournament.contenders[loser]--;
 
-            contenderLastRoundSeenCache.put(winner,$scope.currentRoundNumber);
-            contenderLastRoundSeenCache.put(loser,$scope.currentRoundNumber);
+            contenderLastRoundSeenCache.put(winner, $scope.currentRoundNumber);
+            contenderLastRoundSeenCache.put(loser, $scope.currentRoundNumber);
 
             refreshContenders();
             $scope.currentRoundNumber++;
         };
 
-        function refreshContenders(){
+        function refreshContenders() {
             $scope.firstContender = suggestContender();
             $scope.secondContender = suggestContender($scope.firstContender);
         }
@@ -46,31 +48,41 @@ angular.module("versus")
                 return contenders[randomIndex];
             } else {
                 //group contenders by their distance to the otherContender
-                var contendersGroupedByDistance = {};
+                var contendersGroupedByScore = {};
                 angular.forEach(contenders, function (contender) {
                     if (contender == otherContender) {
                         return
                     }
 
-                    var distance = vectorDistance(contender, otherContender);
-                    if (!(distance in contendersGroupedByDistance)){
-                        contendersGroupedByDistance[distance] = [];
-                    }
-                    contendersGroupedByDistance[distance].push(contender);
-                });
-                var minKey = Math.min(Object.keys(contendersGroupedByDistance));
+                    var score =votesScore(contender, otherContender)+ lastSeenScore(contender, otherContender);
 
-                var randomIndex = Math.floor(Math.random() * contendersGroupedByDistance[minKey].length);
-                return contendersGroupedByDistance[minKey][randomIndex];
+                    console.log(otherContender + " " + contender + " -> " + score + " = " + votesScore(contender, otherContender) + " + " + lastSeenScore(contender, otherContender))
+                    if (!(score in contendersGroupedByScore)) {
+                        contendersGroupedByScore[score] = [];
+                    }
+                    contendersGroupedByScore[score].push(contender);
+                });
+                var keysAsInts = Object.keys(contendersGroupedByScore).map(function(el){return parseInt(el);})
+                var maxKey = Math.max.apply(Math, keysAsInts);
+
+                var randomIndex = Math.floor(Math.random() * contendersGroupedByScore[maxKey].length);
+                return contendersGroupedByScore[maxKey][randomIndex];
             }
         };
 
-        //left this open ended so additional dimensions can be added easily
-        function vectorDistance(contender, otherContender) {
+        function votesScore(contender, otherContender) {
+            var absoluteDifference = Math.abs($scope.tournament.contenders[contender] - $scope.tournament.contenders[otherContender])
+            return parseInt(-1*absoluteDifference/Object.keys($scope.tournament.contenders).length)
+        };
 
-            var votesSquared = Math.pow(contender.value - otherContender.value, 2);
+        function lastSeenScore(contender, otherContender) {
+            var contenderLastSeen = contenderLastRoundSeenCache.get(contender)
+            contenderLastSeen = contenderLastSeen ? contenderLastSeen : 99999999;
 
-            return Math.sqrt(votesSquared);
+            var otherContenderLastSeen = contenderLastRoundSeenCache.get(otherContender)
+            otherContenderLastSeen = otherContenderLastSeen ? otherContenderLastSeen : 0;
+
+            return Math.abs(contenderLastSeen - otherContenderLastSeen);
         }
 
     });
