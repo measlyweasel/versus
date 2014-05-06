@@ -16,8 +16,9 @@
 
 (defn createTournament [tournament]
   (if-not (contains? tournament :contenders)
-    (assoc tournament :contenders []))
-  (mc/insert tournamentCollectionName tournament))
+    (mc/insert tournamentCollectionName
+               (assoc tournament :contenders {}))
+    (mc/insert tournamentCollectionName tournament)))
 
 (defn updateTournament [tournament]
   (mc/update-by-id tournamentCollectionName (tournament :_id) {"$set" (dissoc tournament :_id)}))

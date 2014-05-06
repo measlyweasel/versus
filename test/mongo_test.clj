@@ -67,7 +67,7 @@
     (createTournament {:_id "noContenders"})
 
     (def foundTourn (mc/find-map-by-id tournamentCollectionName "noContenders"))
-    (is (= (foundTourn :contenders) []))
+    (is (= (foundTourn :contenders) {}))
     ))
 
 (deftest addContenderTest
@@ -118,7 +118,7 @@
     (addSeveralContenders testTournamentName ["first" "second" "third"])
 
     ;when
-    (vote testTournamentName :winner "first" :loser "second")
+    (vote testTournamentName {:winner "first" :loser "second"})
 
     ;then
     (is (= (get (getContenders testTournamentName) "first") 1))
@@ -131,10 +131,10 @@
     (addSeveralContenders testTournamentName contenders)
 
     ;when
-    (vote testTournamentName :winner "rice krispies" :loser "lucky charms")
-    (vote testTournamentName :winner "rice krispies" :loser "frosted flakes")
-    (vote testTournamentName :winner "frosted flakes" :loser "cap'n crunch")
-    (vote testTournamentName :winner "frosted flakes" :loser "lucky charms")
+    (vote testTournamentName {:winner "rice krispies" :loser "lucky charms"})
+    (vote testTournamentName {:winner "rice krispies" :loser "frosted flakes"})
+    (vote testTournamentName {:winner "frosted flakes" :loser "cap'n crunch"})
+    (vote testTournamentName {:winner "frosted flakes" :loser "lucky charms"})
 
     ;then
     (is (= (get (getContenders testTournamentName) "frosted flakes") 1))
@@ -196,7 +196,9 @@
     (updateTournament myTournamentUpdate)
 
     ;then
-    (is (= (mc/find-map-by-id mongo/tournamentCollectionName testTournamentName) myTournamentUpdate)))
+    (def foundTournament (mc/find-map-by-id mongo/tournamentCollectionName testTournamentName))
+    (is (= (foundTournament :_id) (myTournamentUpdate :_id)))
+    (is (= (foundTournament :description) (myTournamentUpdate :description))))
   )
 
 (run-tests)
