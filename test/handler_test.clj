@@ -38,7 +38,7 @@
 
     (let [response (app (request :get "/api/tournaments/thingie"))]
       (is (= (response :status) 200))
-      (is (= (response :body) (json/write-str {:_id "thingie"})))
+      (is (= (response :body) (json/write-str {:_id "thingie" :contenders {} })))
       )))
 
 (deftest delete-tournament
@@ -56,7 +56,7 @@
 (deftest update-tournament
   (testing "update a tournament via the api"
     ;given
-    (def updatedTournament {:_id "updater" :description "something"})
+    (def updatedTournament {:_id "updater" :description "something" :contenders {} })
     (createTournament {:_id "updater" :description "none"})
 
     ;when
@@ -74,10 +74,21 @@
                             (content-type "application/json")))]
       (is (= (response :status) 204)))
     (is (= (monger.collection/find-map-by-id mongo/tournamentCollectionName "updater")
-           {:_id "updater" :description "something else"}))
+           {:_id "updater" :description "something else" :contenders {} }))
     )
   )
 
+(deftest tournament-vote
+  (testing "votes can be cast"
+    (createTournament {:_id "voteCheck"})
+    (mongo/addContender "voteCheck" "win")
+    (mongo/addContender "voteCheck" "lose")
+
+    (let [response (app (-> (request :post "/api/tournaments/voteCheck/vote")
+                            (body (json/write-str {:winner "win " :loser "lose"}))
+                            (content-type "application/json")))]
+      (is (= (response :status) 200))
+      )))
 
 (deftest tournament-list
   (testing "list tournaments"

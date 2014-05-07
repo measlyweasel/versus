@@ -32,7 +32,10 @@
                                                              (resp/status (resp/response "") 500))))
 
 
-           (POST "/tournaments/:tournId/vote" {vote :params} "VOTE")
+           (POST "/tournaments/:tournId/vote" {vote :params routeParams :route-params} (let [mongoResponse (mongo/vote (routeParams :tournId) vote)]
+                                                               (if-not (.getError mongoResponse)
+                                                                 (resp/status (resp/response "") 200)
+                                                                 (resp/status (resp/response "") 500))))
 
            (POST "/tournaments/:tournId/contenders" {contender :params} (let [mongoResponse (mongo/addContender (contender :tournId) (contender :name))]
                                                                           (if-not (.getError mongoResponse)
