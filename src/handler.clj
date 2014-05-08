@@ -42,12 +42,6 @@
                                                                             (resp/created (str "/tournaments/" (contender :tournId) "/contenders/" (contender :name)))
                                                                             (resp/status (resp/response "") 500))))
 
-           (GET "/tournaments/:tournId/contenders" [tournId] "LIST OF CONTENDERS")
-           (GET "/tournaments/:tournId/contenders/:contId" [tournId contId] "CONTENDER INFO")
-           (DELETE "/tournaments/:tournId/contenders/:contId" [tournId contId] "DELETE A CONTENDER")
-           (PUT "/tournaments/:tournId/contenders/:contId" [tournId contId] "I SHOULD UPDATE")
-
-
            (route/not-found "Not Found")
            )
 
